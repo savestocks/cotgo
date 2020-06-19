@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"time"
 )
 
 func main() {
@@ -42,6 +43,9 @@ func handlerPurchase(w http.ResponseWriter, r *http.Request) {
 		it := purchase{}
 
 		err := json.NewDecoder(r.Body).Decode(&it)
+		if it.When.IsZero() {
+			it.When = time.Now()
+		}
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return

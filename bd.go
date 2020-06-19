@@ -13,10 +13,13 @@ import (
 var bdFolder = "bd"
 
 type item struct {
-	ID      string `json:"id"`
-	Initial string `json:"initial"`
-	Name    string `json:"name"`
-	Group   string `json:"group"`
+	ID           string `json:"id"`
+	Initial      string `json:"initial"`
+	Name         string `json:"name"`
+	LowestPrice  int32  `json:"lowestPrice"`
+	HighestPrice int32  `json:"highestPrice"`
+	LastPrice    int32  `json:"lastPrice"`
+	Group        string `json:"group"`
 }
 
 func getItems() []item {
@@ -30,13 +33,17 @@ func saveItem(it item) string {
 	items := getItems()
 	it.ID = str.NewUUID()
 	items = append(items, it)
+	writeItems(items)
+	return it.ID
+}
+
+func writeItems(items []item) {
 	b, err := json.Marshal(items)
 	if err != nil {
-		log.Printf("Error when saving %s\n", it.Initial)
-		return ""
+		log.Println("Error while writiong file items")
+		return
 	}
 	io.WriteFile(getFileName("items"), string(b))
-	return it.ID
 }
 
 type purchase struct {
@@ -55,6 +62,9 @@ func getPurchases(ID string) []purchase {
 
 func savePurchase(it purchase, ID string) string {
 	items := getPurchases(ID)
+
+	low, high := getStatistics(items, it.Price)
+	updateStatistics(ID, low, high, it.Price)
 	it.ID = str.NewUUID()
 	items = append(items, it)
 	b, err := json.Marshal(items)
@@ -64,6 +74,38 @@ func savePurchase(it purchase, ID string) string {
 	}
 	io.WriteFile(getFileName(ID), string(b))
 	return it.ID
+}
+
+func getStatistics(items []purchase, last int32) (low int32, high int32) {
+	for _, it := range items {
+		if low == 0 || low > it.Price {
+			low = it.Price
+		}
+		if high == 0 || high < it.Price {
+			high = it.Price
+		}
+	}
+	if last < low {
+		low = last
+	}
+	if last > high {
+		high = last
+	}
+
+	return
+}
+
+func updateStatistics(ID string, low int32, high int32, last int32) {
+	items := getItems()
+	for i, it := range items {
+		if ID == it.ID {
+			items[i].LowestPrice = low
+			items[i].HighestPrice = high
+			items[i].LastPrice = last
+			writeItems(items)
+			return
+		}
+	}
 }
 
 func getFileName(name string) string {
