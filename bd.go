@@ -63,7 +63,7 @@ func savePurchase(it purchase, ID string) string {
 		log.Printf("Error when saving %s\n", it.ID)
 		return ""
 	}
-	io.WriteFile("list.json", string(b))
+	io.WriteFile(fmt.Sprintf("%s.json", ID), string(b))
 	return it.ID
 
 }

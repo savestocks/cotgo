@@ -7,21 +7,10 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/list", func(w http.ResponseWriter, r *http.Request) {
-		items := getItems()
-		returnJson(w, items)
-	})
-	http.HandleFunc("/create", func(w http.ResponseWriter, r *http.Request) {
-		it := item{}
+	http.HandleFunc("/list", listItems)
+	http.HandleFunc("/create", createItem)
 
-		err := json.NewDecoder(r.Body).Decode(&it)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
-			return
-		}
-		saveItem(it)
-		returnJson(w, it)
-	})
+	http.HandleFunc("/purchases/", handlerPurchase)
 
 	fs := http.FileServer(http.Dir("html/"))
 	http.Handle("/html/", http.StripPrefix("/html/", fs))
@@ -30,7 +19,43 @@ func main() {
 	panic(err)
 }
 
-func returnJson(w http.ResponseWriter, any interface{}) {
+func listItems(w http.ResponseWriter, r *http.Request) {
+	items := getItems()
+	returnJSON(w, items)
+}
+
+func createItem(w http.ResponseWriter, r *http.Request) {
+	it := item{}
+
+	err := json.NewDecoder(r.Body).Decode(&it)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	saveItem(it)
+	returnJSON(w, it)
+}
+
+func handlerPurchase(w http.ResponseWriter, r *http.Request) {
+	ID := r.URL.Path[len("/purchases/"):]
+	if r.Method == "POST" {
+		it := purchase{}
+
+		err := json.NewDecoder(r.Body).Decode(&it)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		savePurchase(it, ID)
+		returnJSON(w, it)
+	} else {
+		items := getPurchases(ID)
+		returnJSON(w, items)
+	}
+}
+
+func returnJSON(w http.ResponseWriter, any interface{}) {
+	w.Header().Set("Content-Type", "application/json")
 	b, _ := json.Marshal(any)
 	fmt.Fprintf(w, string(b))
 }
