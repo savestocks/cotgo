@@ -1,4 +1,3 @@
-console.warn("Starting");
 new Vue({
     el:"#app",
 
