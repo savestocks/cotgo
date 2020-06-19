@@ -10,6 +10,8 @@ import (
 	"github.com/andersonlira/goutils/str"
 )
 
+var bdFolder = "bd"
+
 type item struct {
 	ID      string `json:"id"`
 	Initial string `json:"initial"`
@@ -19,10 +21,7 @@ type item struct {
 
 func getItems() []item {
 	items := []item{}
-	listTxt, err := io.ReadFile("list.json")
-	if err != nil {
-		panic("database problem: file list.json not foun")
-	}
+	listTxt, _ := io.ReadFile(getFileName("items"))
 	json.Unmarshal([]byte(listTxt), &items)
 	return items
 }
@@ -36,7 +35,7 @@ func saveItem(it item) string {
 		log.Printf("Error when saving %s\n", it.Initial)
 		return ""
 	}
-	io.WriteFile("list.json", string(b))
+	io.WriteFile(getFileName("items"), string(b))
 	return it.ID
 }
 
@@ -49,7 +48,7 @@ type purchase struct {
 
 func getPurchases(ID string) []purchase {
 	purchases := []purchase{}
-	listTxt, _ := io.ReadFile(fmt.Sprintf("%s.json", ID))
+	listTxt, _ := io.ReadFile(getFileName(ID))
 	json.Unmarshal([]byte(listTxt), &purchases)
 	return purchases
 }
@@ -63,7 +62,10 @@ func savePurchase(it purchase, ID string) string {
 		log.Printf("Error when saving %s\n", it.ID)
 		return ""
 	}
-	io.WriteFile(fmt.Sprintf("%s.json", ID), string(b))
+	io.WriteFile(getFileName(ID), string(b))
 	return it.ID
+}
 
+func getFileName(name string) string {
+	return fmt.Sprintf("bd/%s.json", name)
 }

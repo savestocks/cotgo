@@ -32,7 +32,7 @@ func createItem(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	saveItem(it)
+	it.ID = saveItem(it)
 	returnJSON(w, it)
 }
 
@@ -46,7 +46,7 @@ func handlerPurchase(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
-		savePurchase(it, ID)
+		it.ID = savePurchase(it, ID)
 		returnJSON(w, it)
 	} else {
 		items := getPurchases(ID)
