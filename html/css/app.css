@@ -1,8 +1,33 @@
 body{
-    padding: 25px 25px 25px 25px;
     font-size: 24px;
 }
 
 h1 {
     font-size: 48px;
+}
+
+.line {
+    border: 1px dotted;
+    border-color: #AAA;
+}
+
+.prices{
+    height: 100px;
+    width: 100%;
+    padding: 2px;
+    text-align: center;
+    border-collapse: separate; 
+    border: 1px solid;
+    color:#fff;
+    font-size: 1em;
+
+}
+.prices.red{
+    background-color: #d00;
+}
+.prices.green{
+    background-color:#448844;
+}
+.prices.gray{
+    background-color:#888888;
 }
