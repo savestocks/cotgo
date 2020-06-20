@@ -8,12 +8,13 @@
             <div class="row">
                 <h1>Overview</h1>
             </div>
-            <line-component></line-component>
-            <line-component></line-component>
-            <line-component></line-component>
-            <line-component></line-component>
-            <line-component></line-component>
-            <div>{{message}}</div>
+            <div v-if="creating">
+                <purchase-component></purchase-component>
+            </div>
+            <div v-else>
+                <line-component v-for="item in items" :item="item" @new="newPurchase"></line-component>
+            </div>
+
         </div>
     </body>
 
@@ -21,26 +22,43 @@
         <div class="row line">
             <div class="col-3">
                 <div class="row">
-                    BNNKG    
+                    {{item.initial}}    
                 </div>
                 <div class="row">
-                    Banana Kgs
+                    {{item.name}}
                 </div>
             </div>
             <div class="col-2 ">
-                <button type="button" class="btn  prices red">1.00 €</button>
+                <button type="button" class="btn  prices red">{{priceText(item.highestPrice)}}</button>
             </div>
             <div class="col-2 ">
-                <button type="button" class="btn  prices green">0.85 €</button>
+                <button type="button" class="btn  prices green">{{priceText(item.lowestPrice)}}</button>
             </div>
             <div class="col-2 ">
-                <button type="button" class="btn  prices gray">0.92 €</button>
+                <button type="button" class="btn  prices gray">{{priceText(item.lastPrice)}}</button>
+            </div>
+            <div class="col-2 ">
+                <button type="button" class="btn  prices btn-primary" @click="clickNew">New</button>
             </div>
         </div>    
     </script>
 
+
+
+    <script id="purchaseCmp" type="text/x-template">
+        <div class="row">
+            <div class="col-2 ">
+                Price:
+            </div>
+            <div class="col-10 ">
+                <input />
+            </div>
+        </div>    
+    </script>
+ 
+    <script src="js/axios.min.js" type="text/javascript"></script>
     <script src="js/vue.min.js" type="text/javascript"></script>
-    <script src="js/line.js" type="text/javascript"></script>
+    <script src="js/components.js" type="text/javascript"></script>
     <script src="js/app.js" type="text/javascript"></script>
 
 </html>
