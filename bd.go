@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"sort"
 	"time"
 
 	"github.com/andersonlira/goutils/io"
@@ -26,6 +27,9 @@ func getItems() []item {
 	items := []item{}
 	listTxt, _ := io.ReadFile(getFileName("items"))
 	json.Unmarshal([]byte(listTxt), &items)
+	sort.Slice(items, func(i, j int) bool {
+		return items[i].Name < items[j].Name
+	})
 	return items
 }
 
@@ -90,6 +94,10 @@ func getStatistics(items []purchase, last int32) (low int32, high int32) {
 	}
 	if last > high {
 		high = last
+	}
+
+	if low == 0 {
+		low = last
 	}
 
 	return

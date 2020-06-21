@@ -39,7 +39,7 @@ func createItem(w http.ResponseWriter, r *http.Request) {
 	it := item{}
 
 	err := json.NewDecoder(r.Body).Decode(&it)
-	if err != nil {
+	if err != nil || it.Group == "" || it.Name == "" {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
