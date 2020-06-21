@@ -15,11 +15,17 @@
                 <purchase-component :item="itemSelected" @oncancel="cancelNewPurchase" @onsuccess="onSuccess" @onerror="onError"></purchase-component>
             </div>
             <div v-if="creatingItem">
-                <item-component :item="itemSelected" @oncancel="cancelNewItem" @onsuccess="onSuccess" @onerror="onError"></item-component>
+                <item-component :item="itemSelected" :groups="groups" @oncancel="cancelNewItem" @onsuccess="onSuccess" @onerror="onError"></item-component>
             </div>
 
             <div v-if="!creatingPurchase && !creatingItem">
-                <line-component v-for="item in items" :item="item" @new="newPurchase"></line-component>
+                <div class="row form_inputs">
+                    <select v-model="filterGroup"  >
+                        <option>Todos</option>
+                        <option v-for="g in groups">{{g}}</option>
+                    </select>
+                </div>
+                <line-component v-for="item in filteredItems" :item="item" @new="newPurchase"></line-component>
             </div>
             <div v-if="!creatingPurchase && !creatingItem" class="row">
                 <div class="col-12">
@@ -104,7 +110,7 @@
                 Initial:
             </div>
             <div class="col-8 ">
-                <input v-model="model.intial" maxlength="5" />
+                <input v-model="model.initial" maxlength="5" />
             </div>
             <div class="col-3 label ">
                 Name:
@@ -116,12 +122,8 @@
                 Group:
             </div>
             <div class="col-8 ">
-                <select v-model="model.group" value="Supermercado">
-                    <option>Higiene/Perfumaria</option>
-                    <option>Supermercado</option>
-                    <option>Utilidades Lar</option>
-                    <option>Veículos</option>
-                    <option>Vestuário</option>
+                <select v-model="model.group" >
+                    <option v-for="g in groups">{{g}}</option>
                 </select>
             </div>
         </div>

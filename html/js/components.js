@@ -30,15 +30,15 @@ Vue.component('purchase-component', {
     props: {
 		item: {
 			default:{}
-		}
+		},
+		
 	},
 
 	data: function(){
 		return {
 			model:{
-				initial:"",
-				name:"",
-				group: "",
+				price:0,
+				qtd:0
 			}
 		}
 	},
@@ -65,14 +65,16 @@ Vue.component('item-component', {
     props: {
 		item: {
 			default:{}
-		}
+		},
+		groups: {default:[]}
 	},
 
 	data: function(){
 		return {
 			model:{
-				price:0,
-				qtd:0
+				initial:"",
+				name:"",
+				group: "",				
 			}
 		}
 	},

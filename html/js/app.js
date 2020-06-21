@@ -4,8 +4,11 @@ new Vue({
     data: function(){
         return {
             items:[],
+            filteredItems:[],
+            filterGroup:"Todos",
             itemSelected: null,
-            creatingItem: false
+            creatingItem: false,
+            groups: ["Higiene/Perfumaria","Supermercado","Veículos","Vestuário","Utilidades Lar"]
         }
     },
 
@@ -16,6 +19,14 @@ new Vue({
     computed: {
         creatingPurchase: function(){
             return this.itemSelected != null;
+        }
+    },
+    watch: {
+        items: function(newVal){
+            this.filter();
+        },
+        filterGroup: function(){
+            this.filter();
         }
     },
     methods: {
@@ -52,6 +63,13 @@ new Vue({
         cancelNewItem: function(){
             this.creatingItem = false;
         },
+        filter: function(){
+            let me = this;
+            this.filteredItems = this.items.filter(function(it){
+                return me.filterGroup == "Todos" || it.group == me.filterGroup;
+            });
+
+        }
 
     }
 });
