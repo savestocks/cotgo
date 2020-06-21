@@ -4,7 +4,7 @@ new Vue({
     data: function(){
         return {
             items:[],
-            creating:false
+            itemSelected: null
         }
     },
 
@@ -12,12 +12,16 @@ new Vue({
         this.loadItems();
     },
 
+    computed: {
+        creating: function(){
+            return this.itemSelected != null;
+        }
+    },
     methods: {
         loadItems: function(){
             let me = this;
             axios.get(location.origin + '/list')
             .then(function(res){
-                console.warn(res)
                 me.items = res.data;
 
             }).catch(function(err){
@@ -26,9 +30,11 @@ new Vue({
 
             
         },
-        newPurchase: function(id){
-            console.warn(id);
-            this.creating = true;
+        newPurchase: function(item){
+            this.itemSelected = item;
+        },
+        cancelNewPurchase: function(){
+            this.itemSelected = null;
         }
     }
 });

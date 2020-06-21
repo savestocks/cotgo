@@ -16,7 +16,7 @@ Vue.component('line-component', {
 			}
 		},
 		clickNew: function(){
-			this.$emit('new',this.id);
+			this.$emit('new',this.item);
 		}
 	}
 });
@@ -32,5 +32,11 @@ Vue.component('purchase-component', {
 	},
 
 	methods: {
+		cancel: function(){
+			this.$emit("oncancel");
+		},
+		save: function(){
+			alert("Salvo:" + this.item.id)
+		}
 	}
 });
