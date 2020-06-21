@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"sort"
+	"strings"
 	"time"
 
 	"github.com/andersonlira/goutils/io"
@@ -36,6 +37,7 @@ func getItems() []item {
 func saveItem(it item) string {
 	items := getItems()
 	it.ID = str.NewUUID()
+	it.Initial = strings.ToUpper(it.Initial)
 	items = append(items, it)
 	writeItems(items)
 	return it.ID

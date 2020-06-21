@@ -17,6 +17,7 @@ func (p proxyHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	p.origin.ServeHTTP(w, r)
 }
 func main() {
+	http.HandleFunc("/ping", ping)
 	http.HandleFunc("/list", listItems)
 	http.HandleFunc("/create", createItem)
 
@@ -28,6 +29,12 @@ func main() {
 
 	err := http.ListenAndServe(":7070", nil)
 	panic(err)
+}
+
+func ping(w http.ResponseWriter, r *http.Request) {
+	m := make(map[string]string)
+	m["message"] = "ok"
+	returnJSON(w, m)
 }
 
 func listItems(w http.ResponseWriter, r *http.Request) {

@@ -74,7 +74,7 @@ Vue.component('item-component', {
 			model:{
 				initial:"",
 				name:"",
-				group: "",				
+				group: "Supermercado",				
 			}
 		}
 	},
