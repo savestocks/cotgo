@@ -7,6 +7,15 @@ import (
 	"time"
 )
 
+type proxyHandler struct {
+	origin http.Handler
+}
+
+//ServerHTTP implements Handler interface
+func (p proxyHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Cache-Control", fmt.Sprintf("public,max-age=%d", 1))
+	p.origin.ServeHTTP(w, r)
+}
 func main() {
 	http.HandleFunc("/list", listItems)
 	http.HandleFunc("/create", createItem)
@@ -14,7 +23,8 @@ func main() {
 	http.HandleFunc("/purchases/", handlerPurchase)
 
 	fs := http.FileServer(http.Dir("html/"))
-	http.Handle("/html/", http.StripPrefix("/html/", fs))
+	ph := proxyHandler{fs}
+	http.Handle("/html/", http.StripPrefix("/html/", ph))
 
 	err := http.ListenAndServe(":7070", nil)
 	panic(err)
