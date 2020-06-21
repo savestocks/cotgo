@@ -36,6 +36,41 @@ Vue.component('purchase-component', {
 	data: function(){
 		return {
 			model:{
+				initial:"",
+				name:"",
+				group: "",
+			}
+		}
+	},
+	
+	methods: {
+		cancel: function(){
+			this.$emit("oncancel");
+		},
+		save: function(){
+			let me = this;
+			axios.post('/purchases/'+this.item.id, this.model).then(function(res){
+				me.$emit("onsuccess",res.data);
+			}).catch(function(err){
+				me.$emit("onerror");
+			});
+		}
+	}
+});
+
+
+Vue.component('item-component', {
+	name: 'item-component',
+	template: '#itemCmp',
+    props: {
+		item: {
+			default:{}
+		}
+	},
+
+	data: function(){
+		return {
+			model:{
 				price:0,
 				qtd:0
 			}
@@ -48,7 +83,7 @@ Vue.component('purchase-component', {
 		},
 		save: function(){
 			let me = this;
-			axios.post('/purchases/'+this.item.id, this.model).then(function(res){
+			axios.post('/create', this.model).then(function(res){
 				me.$emit("onsuccess",res.data);
 			}).catch(function(err){
 				me.$emit("onerror");

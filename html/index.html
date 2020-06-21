@@ -7,16 +7,26 @@
 
 <body>
     <div id="app" class="container-fluid">
-        <div class="row">
-            <h1>{{ creating ? 'New Purchase' :'Overview'}}</h1>
-        </div>
-        <div v-if="creating">
-            <purchase-component :item="itemSelected" @oncancel="cancelNewPurchase" @onsuccess="onSuccess" @onerror="onError"></purchase-component>
-        </div>
-        <div v-else>
-            <line-component v-for="item in items" :item="item" @new="newPurchase"></line-component>
-        </div>
+        <div>
+            <div class="row">
+                <h1>{{ creatingPurchase ? 'New Purchase' : creatingItem ? 'New Item' :'Overview'}}</h1>
+            </div>
+            <div v-if="creatingPurchase">
+                <purchase-component :item="itemSelected" @oncancel="cancelNewPurchase" @onsuccess="onSuccess" @onerror="onError"></purchase-component>
+            </div>
+            <div v-if="creatingItem">
+                <item-component :item="itemSelected" @oncancel="cancelNewItem" @onsuccess="onSuccess" @onerror="onError"></item-component>
+            </div>
 
+            <div v-if="!creatingPurchase && !creatingItem">
+                <line-component v-for="item in items" :item="item" @new="newPurchase"></line-component>
+            </div>
+            <div v-if="!creatingPurchase && !creatingItem" class="row">
+                <div class="col-12">
+                    <button style="margin-top: 15px;" class="btn prices btn-primary " @click="newItem">New Item</button>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 
@@ -68,6 +78,9 @@
                     <input  v-model.number="model.qtd" type="number"/>
                 </div>
             </div>
+            <div style="color:red" clss="row">
+                *Price should be integer. Example 1.00 = 100
+            </div>
             <div class="row">
                 <div class="col-6 ">
                     <button type="button" class="btn  prices btn-secondary" @click="cancel" >Cancelar</button>
@@ -77,7 +90,51 @@
                 </div>
             </div>
         </div>    
-    </script>
+</script>
+
+<script id="itemCmp" type="text/x-template">
+    <div class="form">
+        <div class="row">
+            <div class="col-12">
+                <span class="form_title">Fill new items details</span>
+            </div>
+        </div>
+        <div class="form_inputs row">
+            <div class="col-3 label">
+                Initial:
+            </div>
+            <div class="col-8 ">
+                <input v-model="model.intial" maxlength="5" />
+            </div>
+            <div class="col-3 label ">
+                Name:
+            </div>
+            <div class="col-8 ">
+                <input  v-model.name="model.name" />
+            </div>
+            <div class="col-3 label ">
+                Group:
+            </div>
+            <div class="col-8 ">
+                <select v-model="model.group">
+                    <option>Supermercado</option>
+                    <option>Vestuário</option>
+                    <option>Veículos</option>
+                    <option>Utilidades Lar</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 ">
+                <button type="button" class="btn  prices btn-secondary" @click="cancel" >Cancelar</button>
+            </div>
+            <div class="col-6 ">
+                <button type="button" class="btn  prices btn-primary" @click="save" >Salvar</button>
+            </div>
+        </div>
+    </div>    
+</script>
+
 
 <script src="js/axios.min.js" type="text/javascript"></script>
 <script src="js/vue.min.js" type="text/javascript"></script>

@@ -56,7 +56,7 @@ func handlerPurchase(w http.ResponseWriter, r *http.Request) {
 		if it.When.IsZero() {
 			it.When = time.Now()
 		}
-		if err != nil {
+		if err != nil || it.Price == 0 || it.Qtd == 0 {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
