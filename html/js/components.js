@@ -7,6 +7,8 @@ Vue.component('line-component', {
 		}
 	},
 
+
+
 	methods: {
 		priceText: function(price){
 			try{
@@ -31,12 +33,26 @@ Vue.component('purchase-component', {
 		}
 	},
 
+	data: function(){
+		return {
+			model:{
+				price:0,
+				qtd:0
+			}
+		}
+	},
+	
 	methods: {
 		cancel: function(){
 			this.$emit("oncancel");
 		},
 		save: function(){
-			alert("Salvo:" + this.item.id)
+			let me = this;
+			axios.post('/purchases/'+this.item.id, this.model).then(function(res){
+				me.$emit("onsuccess",res.data);
+			}).catch(function(err){
+				me.$emit("onerror");
+			});
 		}
 	}
 });

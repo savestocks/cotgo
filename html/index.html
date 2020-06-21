@@ -11,7 +11,7 @@
             <h1>{{ creating ? 'New Purchase' :'Overview'}}</h1>
         </div>
         <div v-if="creating">
-            <purchase-component :item="itemSelected" @oncancel="cancelNewPurchase"></purchase-component>
+            <purchase-component :item="itemSelected" @oncancel="cancelNewPurchase" @onsuccess="onSuccess" @onerror="onError"></purchase-component>
         </div>
         <div v-else>
             <line-component v-for="item in items" :item="item" @new="newPurchase"></line-component>
@@ -59,13 +59,13 @@
                     Price:
                 </div>
                 <div class="col-8 ">
-                    <input type="number" />
+                    <input v-model.number="model.price" type="number" />
                 </div>
                 <div class="col-3 label ">
                     Quantity:
                 </div>
                 <div class="col-8 ">
-                    <input  type="number"/>
+                    <input  v-model.number="model.qtd" type="number"/>
                 </div>
             </div>
             <div class="row">

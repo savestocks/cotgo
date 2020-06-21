@@ -35,6 +35,12 @@ new Vue({
         },
         cancelNewPurchase: function(){
             this.itemSelected = null;
+        },
+        onSuccess: function(item){
+            alert(item.id);
+        },
+        onError: function(){
+            alert("Erro ao Salvar");
         }
     }
 });
