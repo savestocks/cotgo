@@ -10,6 +10,9 @@ h1 {
     border: 1px dotted;
     border-color: #AAA;
 }
+.line:nth-child(odd) {
+    background-color:#DDD;
+} 
 
 .prices{
     height: 100px;
@@ -17,20 +20,25 @@ h1 {
     padding: 2px;
     text-align: center;
     border-collapse: separate; 
-    border: 1px solid;
     color:#fff;
-    font-size: 1em;
+    font-size: 1.5em;
+    background-color: transparent;
 
 }
 .prices.red{
-    background-color: #d00;
+    color: #d00;
 }
 .prices.green{
-    background-color:#448844;
+    color :#448844;
 }
 .prices.gray{
-    background-color:#888888;
+    color:#888888;
 }
+
+.btn_new{
+    background-color: #007bff;
+}
+
 .form{
     padding: 5px;
     border-color:#888888;

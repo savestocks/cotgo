@@ -8,7 +8,7 @@ new Vue({
             filterGroup:"Todos",
             itemSelected: null,
             creatingItem: false,
-            groups: ["Higiene/Perfumaria","Supermercado","Veículos","Vestuário","Utilidades Lar"]
+            groups: ["Higiene/Perfumaria","Supermercado","Talho","Veículos","Vestuário","Utilidades Lar"]
         }
     },
 

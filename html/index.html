@@ -30,7 +30,7 @@
             </div>
             <div v-if="!creatingPurchase && !creatingItem" class="row">
                 <div class="col-12">
-                    <button style="margin-top: 15px;" class="btn prices btn-primary " @click="newItem">New Item</button>
+                    <button style="margin-top: 15px;" class="btn btn_new prices btn-primary " @click="newItem">New Item</button>
                 </div>
             </div>
         </div>
@@ -57,7 +57,7 @@
                 <button type="button" class="btn  prices gray">{{priceText(item.lastPrice)}}</button>
             </div>
             <div class="col-2 ">
-                <button type="button" class="btn  prices btn-primary" @click="clickNew">New</button>
+                <button type="button" class="btn  btn_new prices btn-primary" @click="clickNew">New</button>
             </div>
         </div>    
     </script>
