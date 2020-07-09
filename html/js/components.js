@@ -38,8 +38,10 @@ Vue.component('purchase-component', {
 		return {
 			model:{
 				price:0,
-				qtd:0
-			}
+				qtd:0,
+				market:""
+			},
+			markets: ["Lidl","Continente","Pingo Doce","Minipreco","E'leclerc","Intermache","BP","Outro"]
 		}
 	},
 	

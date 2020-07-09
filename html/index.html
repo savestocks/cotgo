@@ -84,6 +84,15 @@
                 <div class="col-8 ">
                     <input  v-model.number="model.qtd" type="number"/>
                 </div>
+                <div class="col-3 label ">
+                    Market:
+                </div>
+                <div class="col-8 ">
+                    <select v-model="model.market" >
+                        <option v-for="m in markets">{{m}}</option>
+                    </select>
+                </div>
+    
             </div>
             <div style="color:red" clss="row">
                 *Price should be integer. Example 1.00 = 100

@@ -53,10 +53,11 @@ func writeItems(items []item) {
 }
 
 type purchase struct {
-	ID    string    `json:"id"`
-	When  time.Time `json:"when"`
-	Qtd   int32     `json:"qtd"`
-	Price int32     `json:"price"`
+	ID     string    `json:"id"`
+	When   time.Time `json:"when"`
+	Qtd    int32     `json:"qtd"`
+	Price  int32     `json:"price"`
+	Market string    `json:"market"`
 }
 
 func getPurchases(ID string) []purchase {
