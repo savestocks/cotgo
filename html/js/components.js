@@ -66,6 +66,7 @@ Vue.component('item-component', {
 		item: {
 			default:{}
 		},
+		previousGroup: "",
 		groups: {default:[]}
 	},
 
@@ -78,7 +79,11 @@ Vue.component('item-component', {
 			}
 		}
 	},
-	
+	created: function(){
+		if(this.previousGroup != "Todos" ){
+			this.model.group = this.previousGroup;
+		}
+	},
 	methods: {
 		cancel: function(){
 			this.$emit("oncancel");

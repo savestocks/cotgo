@@ -16,7 +16,7 @@
                 <purchase-component :item="itemSelected" @oncancel="cancelNewPurchase" @onsuccess="onSuccess" @onerror="onError"></purchase-component>
             </div>
             <div v-if="creatingItem">
-                <item-component :item="itemSelected" :groups="groups" @oncancel="cancelNewItem" @onsuccess="onSuccess" @onerror="onError"></item-component>
+                <item-component :item="itemSelected" :groups="groups" :previous-group="filterGroup" @oncancel="cancelNewItem" @onsuccess="onSuccess" @onerror="onError"></item-component>
             </div>
 
             <div v-if="!creatingPurchase && !creatingItem">
