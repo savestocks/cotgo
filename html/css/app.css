@@ -38,6 +38,9 @@ h1 {
 .btn_new{
     background-color: #007bff;
 }
+.btn_cancel{
+    background-color: #888888;
+}
 
 .form{
     padding: 5px;
