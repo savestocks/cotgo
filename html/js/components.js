@@ -41,7 +41,7 @@ Vue.component('purchase-component', {
 				qtd:0,
 				market:""
 			},
-			markets: ["Lidl","Continente","Pingo Doce","Minipreco","E'leclerc","Intermache","BP","Outro"]
+			markets: ["Lidl","Continente","Pingo Doce","Minipreco","E'leclerc","Intermache","BP","Decathlon","Outro"]
 		}
 	},
 	
