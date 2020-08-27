@@ -1,3 +1,6 @@
+function getKey(){
+    return '?key=' + new URL(location.href).searchParams.get("key");
+}
 new Vue({
     el:"#app",
 
@@ -34,7 +37,7 @@ new Vue({
             this.itemSelected = null;
             this.creatingItem = false;
             let me = this;
-            axios.get(location.origin + '/list')
+            axios.get(location.origin + '/list' + getKey())
             .then(function(res){
                 me.items = res.data;
 

@@ -16,12 +16,26 @@ func (p proxyHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Cache-Control", fmt.Sprintf("public,max-age=%d", 1))
 	p.origin.ServeHTTP(w, r)
 }
-func main() {
-	http.HandleFunc("/ping", ping)
-	http.HandleFunc("/list", listItems)
-	http.HandleFunc("/create", createItem)
 
-	http.HandleFunc("/purchases/", handlerPurchase)
+type proxyRest struct {
+	handler func(http.ResponseWriter, *http.Request)
+}
+
+func (p proxyRest) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	keys, ok := r.URL.Query()["key"]
+	if !ok || keys[0] != "0d0ec11a-f3ce-e4bb-3e33-3f8d08cf5385" {
+		forbidden(w)
+		return
+	}
+	p.handler(w, r)
+}
+
+func main() {
+	http.Handle("/ping", proxyRest{ping})
+	http.Handle("/list", proxyRest{listItems})
+	http.Handle("/create", proxyRest{createItem})
+
+	http.Handle("/purchases/", proxyRest{handlerPurchase})
 
 	fs := http.FileServer(http.Dir("html/"))
 	ph := proxyHandler{fs}
@@ -73,6 +87,18 @@ func handlerPurchase(w http.ResponseWriter, r *http.Request) {
 		items := getPurchases(ID)
 		returnJSON(w, items)
 	}
+}
+
+//Msg is a simple object return
+type Msg struct {
+	Messase string `json:"message"`
+}
+
+func forbidden(w http.ResponseWriter) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusForbidden)
+	b, _ := json.Marshal(Msg{"forbidden"})
+	fmt.Fprintf(w, string(b))
 }
 
 func returnJSON(w http.ResponseWriter, any interface{}) {

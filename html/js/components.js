@@ -51,7 +51,7 @@ Vue.component('purchase-component', {
 		},
 		save: function(){
 			let me = this;
-			axios.post('/purchases/'+this.item.id, this.model).then(function(res){
+			axios.post('/purchases/'+this.item.id + getKey(), this.model).then(function(res){
 				me.$emit("onsuccess",res.data);
 			}).catch(function(err){
 				me.$emit("onerror");
@@ -92,7 +92,7 @@ Vue.component('item-component', {
 		},
 		save: function(){
 			let me = this;
-			axios.post('/create', this.model).then(function(res){
+			axios.post('/create' + getKey(), this.model).then(function(res){
 				me.$emit("onsuccess",res.data);
 			}).catch(function(err){
 				me.$emit("onerror");
