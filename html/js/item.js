@@ -24,8 +24,8 @@ Vue.component('item-component', {
                 Group:
             </div>
             <div class="col-8 ">
-                <select v-model="model.group" >
-                    <option v-for="g in groups">{{g}}</option>
+                <select v-model="model.groupId" >
+                    <option v-for="g in groups" :value="g.id">{{g.name}}</option>
                 </select>
             </div>
         </div>
@@ -52,14 +52,17 @@ Vue.component('item-component', {
 			model:{
 				initial:"",
 				name:"",
-				group: "Supermercado",				
+				groupId: "",				
 			}
 		}
 	},
 	created: function(){
 		if(this.previousGroup != "Todos" ){
-			this.model.group = this.previousGroup;
-		}
+			this.model.groupId = this.previousGroup.id;
+		}else{
+            let sup = this.groups.filter(function(it){ return it.name === 'Supermercado'})[0];
+            this.model.groupId = sup ? sup.id : null;
+        }
 	},
 	methods: {
 		cancel: function(){

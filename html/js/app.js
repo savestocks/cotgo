@@ -80,7 +80,7 @@ new Vue({
         filter: function(){
             let me = this;
             this.filteredItems = this.items.filter(function(it){
-                return me.filterGroup == "Todos" || it.groupId == me.filterGroup;
+                return me.filterGroup == "Todos" || it.groupId == me.filterGroup.id;
             });
 
         }

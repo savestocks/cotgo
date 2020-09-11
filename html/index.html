@@ -23,7 +23,7 @@
                 <div class="row form_inputs">
                     <select v-model="filterGroup"  >
                         <option>Todos</option>
-                        <option v-for="g in groups" :value="g.id">{{g.name}}</option>
+                        <option v-for="g in groups" :value="g">{{g.name}}</option>
                     </select>
                 </div>
                 <line-component v-for="item in filteredItems" :item="item" @new="newPurchase"></line-component>
