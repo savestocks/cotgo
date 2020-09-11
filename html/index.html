@@ -23,7 +23,7 @@
                 <div class="row form_inputs">
                     <select v-model="filterGroup"  >
                         <option>Todos</option>
-                        <option v-for="g in groups">{{g}}</option>
+                        <option v-for="g in groups" :value="g.id">{{g.name}}</option>
                     </select>
                 </div>
                 <line-component v-for="item in filteredItems" :item="item" @new="newPurchase"></line-component>
@@ -39,6 +39,7 @@
 
 <script src="js/axios.min.js" type="text/javascript"></script>
 <script src="js/vue.min.js" type="text/javascript"></script>
+<script src="js/config.js" type="text/javascript"></script>
 <script src="js/line.js" type="text/javascript"></script>
 <script src="js/purchase.js" type="text/javascript"></script>
 <script src="js/item.js" type="text/javascript"></script>

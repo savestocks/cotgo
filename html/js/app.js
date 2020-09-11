@@ -11,11 +11,12 @@ new Vue({
             filterGroup:"Todos",
             itemSelected: null,
             creatingItem: false,
-            groups: ["Higiene/Perfumaria","Supermercado","Talho","Veículos","Vestuário","Utilidades Lar","Pet"]
+            groups: []
         }
     },
 
     created: function(){
+        this.loadGroups();
         this.loadItems();
     },
 
@@ -33,6 +34,17 @@ new Vue({
         }
     },
     methods: {
+        loadGroups: function(){
+            let me = this;
+            axios.get(getGroupsURL() + getKey())
+            .then(function(res){
+                me.groups = res.data;
+
+            }).catch(function(err){
+                console.error(err)
+            });
+            
+        },
         loadItems: function(){
             this.itemSelected = null;
             this.creatingItem = false;
@@ -44,7 +56,6 @@ new Vue({
             }).catch(function(err){
                 console.error(err)
             });
-
             
         },
         newPurchase: function(item){
@@ -69,7 +80,7 @@ new Vue({
         filter: function(){
             let me = this;
             this.filteredItems = this.items.filter(function(it){
-                return me.filterGroup == "Todos" || it.group == me.filterGroup;
+                return me.filterGroup == "Todos" || it.groupId == me.filterGroup;
             });
 
         }

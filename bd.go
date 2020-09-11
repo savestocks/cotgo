@@ -21,7 +21,7 @@ type item struct {
 	LowestPrice  int32  `json:"lowestPrice"`
 	HighestPrice int32  `json:"highestPrice"`
 	LastPrice    int32  `json:"lastPrice"`
-	Group        string `json:"group"`
+	GroupID        string `json:"groupId"`
 }
 
 func getItems() []item {
